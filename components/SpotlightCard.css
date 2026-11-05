@@ -1,0 +1,67 @@
+.spotlight-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.spotlight-card__light,
+.spotlight-card__grain,
+.spotlight-card__border,
+.spotlight-card__edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.spotlight-card__light {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity var(--duration-fast, 250ms) ease;
+}
+
+.spotlight-card__grain {
+  z-index: 0;
+  opacity: 0;
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+}
+
+.spotlight-card__border,
+.spotlight-card__edge {
+  padding: 1px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.spotlight-card__border {
+  z-index: 1;
+  background: var(--spotlight-card-border, var(--color-line, #ece7e3));
+}
+
+.spotlight-card__edge {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--duration-fast, 250ms) ease;
+}
+
+/* Desktop-Only Rule: Disable spotlight sheen on mobile/touch screens so scrolling is 100% smooth */
+@media not all and (hover: hover) and (pointer: fine) {
+  .spotlight-card__light,
+  .spotlight-card__grain,
+  .spotlight-card__edge {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card__light,
+  .spotlight-card__edge {
+    transition: none !important;
+  }
+}

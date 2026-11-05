@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "siteName": "Dipesh Mishra",
+    "title": "Dipesh Mishra | Founder & CEO, iYouth Pvt. Ltd.",
+    "description": "Dipesh Mishra builds youth enterprise and leadership in Chhattisgarh: founder of iYouth Pvt. Ltd., Chhattisgarh Youth Federation and Chhattisgarh Adventure Sports Association."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "primaryNav": "Primary",
+    "language": "Language",
+    "switchTo": "हिंदी में पढ़ें",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "copy": "Copy email address",
+    "copied": "Email copied",
+    "whatsapp": "Chat on WhatsApp",
+    "prev": "Previous",
+    "next": "Next",
+    "play": "Play video",
+    "external": "opens in a new tab",
+    "pauseMotion": "Pause scrolling",
+    "resumeMotion": "Resume scrolling"
+  },
+  "nav": {
+    "about": "About",
+    "ventures": "Ventures",
+    "store": "iYouth Store",
+    "journey": "Journey",
+    "media": "Media",
+    "contact": "Contact",
+    "partner": "Partner with us"
+  },
+  "home": {
+    "quote": "Youth are not just the future of India — they are the driving force of India's present growth story.",
+    "roles": "Founder & CEO, iYouth Pvt. Ltd. · Founder, Chhattisgarh Youth Federation & Chhattisgarh Adventure Sports Association",
+    "slogan": "आत्मनिर्भर युवा – आत्मनिर्भर छत्तीसगढ़"
+  },
+  "footer": {
+    "rights": "Dipesh Mishra",
+    "location": "Raipur, Chhattisgarh",
+    "about": "About",
+    "ventures": "Ventures",
+    "involved": "Get involved",
+    "connect": "Connect",
+    "aboutDipesh": "About Dipesh",
+    "journey": "Journey",
+    "media": "Media",
+    "iyouth": "iYouth Pvt. Ltd.",
+    "cyf": "Chhattisgarh Youth Federation",
+    "casa": "Chhattisgarh Adventure Sports Association",
+    "store": "iYouth Store",
+    "partner": "Partner with us",
+    "counselling": "Free youth counselling",
+    "advisory": "Business advisory",
+    "openStore": "Open an iYouth Store",
+    "social": "Social media"
+  },
+  "status": {
+    "live": "Live",
+    "soon": "Coming soon"
+  }
+}

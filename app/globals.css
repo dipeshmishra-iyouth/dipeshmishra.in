@@ -1,0 +1,481 @@
+@import "tailwindcss";
+
+/* Saffron Seva design tokens */
+@theme {
+  --color-saffron-500: #fb5607; /* large text (>=24px) and decoration only */
+  --color-saffron-700: #c2410c; /* small text, button fills with white text */
+  --color-saffron-800: #9a3412;
+  --color-peach-50: #fff0e9;
+  --color-peach-100: #ffeae0;
+  --color-teal-50: #e7f3f2;
+  --color-teal-700: #115e59;
+  --color-teal-900: #0e3b43;
+  --color-ink-900: #1a1a1a;
+  --color-ink-700: #3c3c3c;
+  --color-ink-500: #5a5a5a;
+  --color-ink-400: #6b6b6b;
+  --color-line: #ece7e3;
+  --color-scrim: rgb(0 0 0 / 0.4);
+  --color-page: #ffffff;
+
+  --font-sans: var(--font-inter), var(--font-noto-deva), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-tiro), Georgia, serif;
+  --font-quote: var(--font-poppins), var(--font-inter), sans-serif;
+
+  --text-display-xl: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
+  --text-display-xl--line-height: 1.1;
+  --text-display-l: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+  --text-display-l--line-height: 1.15;
+  --text-display-m: clamp(1.625rem, 1.3rem + 1.3vw, 2.125rem);
+  --text-display-m--line-height: 1.2;
+  --text-hero-quote: clamp(1.625rem, 1rem + 2.6vw, 2.75rem);
+  --text-hero-quote--line-height: 1.15;
+  --text-kicker: clamp(1.125rem, 0.95rem + 0.7vw, 1.5rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+
+  --radius-card: 20px;
+  --radius-image: 14px;
+}
+
+@layer base {
+  html {
+    color: var(--color-ink-500);
+    background: var(--color-page);
+  }
+  /* Devanagari matras need extra room */
+  html:lang(hi) body {
+    line-height: 1.8;
+  }
+  h1,
+  h2,
+  h3 {
+    color: var(--color-ink-900);
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-saffron-700);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Unlayered so it beats the text-* utilities: tight display leading clips Devanagari matras */
+:lang(hi) .font-quote,
+:lang(hi) .font-serif {
+  line-height: 1.4;
+}
+
+/* Motion tokens (motion scale) */
+:root {
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --blur-small: 2px;
+
+  --toast-open: 350ms;
+  --toast-close: 250ms;
+  --toast-distance: 16px;
+  --toast-blur: 2px;
+  --toast-scale: 0.97;
+  --toast-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --learn-shift: 2px;
+  --learn-spread: 8deg;
+  --learn-in: 350ms;
+  --learn-out: 350ms;
+  --learn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+/* interaction: Learn more hover (24) */
+.t-learn-chevron {
+  display: inline-flex;
+  transform: translateX(0);
+  transition: transform var(--learn-out) var(--learn-ease);
+}
+.t-learn-arm {
+  transform-box: view-box;
+  transform-origin: 10px 8px;
+  vector-effect: non-scaling-stroke;
+  transition: transform var(--learn-out) var(--learn-ease);
+}
+.t-learn:hover .t-learn-chevron { transform: translateX(var(--learn-shift)); transition-duration: var(--learn-in); }
+.t-learn:hover .t-learn-arm { transition-duration: var(--learn-in); }
+.t-learn:hover .t-learn-arm-top { transform: rotate(var(--learn-spread)); }
+.t-learn:hover .t-learn-arm-bot { transform: rotate(calc(var(--learn-spread) * -1)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-learn-chevron, .t-learn-arm { transition: none !important; }
+}
+
+/* interaction: Toast open / close (22) */
+.t-toast {
+  opacity: 0;
+  transform: translateY(var(--toast-distance)) scale(var(--toast-scale));
+  filter: blur(var(--toast-blur));
+  will-change: transform, opacity, filter;
+  transition:
+    opacity var(--toast-close) var(--toast-ease),
+    transform var(--toast-close) var(--toast-ease),
+    filter var(--toast-close) var(--toast-ease);
+}
+.t-toast.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition:
+    opacity var(--toast-open) var(--toast-ease),
+    transform var(--toast-open) var(--toast-ease),
+    filter var(--toast-open) var(--toast-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-toast { transition: none !important; }
+}
+
+/* Header hides on scroll down, returns on scroll up */
+.site-header {
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+}
+.site-header[data-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header { transition: none !important; }
+}
+
+/* Journey era pills sit under the header while it shows and take its place once it hides on scroll. */
+.era-nav {
+  top: 0;
+  transition: top var(--duration-fast) var(--ease-smooth-out);
+}
+body:has(.site-header[data-hidden="false"]) .era-nav {
+  top: 4rem;
+}
+
+/* Ribbon loop: the SVG is wider than small screens so its text stays readable, but capped on big
+   ones so the band stays slim; the path itself is far wider than the cap. The box crops it. */
+.ribbon-loop {
+  overflow: hidden;
+}
+.ribbon-loop .text-loop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(760px, 100%, 1500px);
+  overflow: visible;
+  transform: translate(-50%, -50%);
+}
+.ribbon-loop .text-loop-text {
+  font-family: var(--font-sans);
+  fill-opacity: 0.32;
+}
+
+/* Hero signature writes itself left to right on load, like ink following the pen. */
+.sig-draw {
+  clip-path: inset(-20% 100% -20% 0);
+}
+.sig-draw[data-loaded] {
+  animation: sig-draw 1.8s cubic-bezier(0.45, 0, 0.25, 1) 0.25s both;
+}
+@keyframes sig-draw {
+  from { clip-path: inset(-20% 100% -20% 0); }
+  to { clip-path: inset(-20% 0 -20% 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sig-draw, .sig-draw[data-loaded] { animation: none; clip-path: none; }
+}
+
+/* 404: the zero breathes slowly. Only for people who have not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .ring-breathe {
+    animation: ring-breathe 3.2s ease-in-out infinite alternate;
+  }
+}
+@keyframes ring-breathe {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+
+/* Marquee: one transform animation, paused by hover/focus (mouse) or the toggle. */
+.marquee-viewport {
+  overflow: hidden;
+  /* room for the tilted tile's lift and shadow, which overflow:hidden would otherwise clip */
+  padding-block: 1.5rem;
+  margin-block: -1.5rem;
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 40s) linear infinite;
+}
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+.marquee-item {
+  width: min(78vw, 320px);
+  flex-shrink: 0;
+}
+@keyframes marquee-scroll {
+  to { transform: translateX(calc(-100% / var(--marquee-copies, 3))); }
+}
+/* Only the row itself pauses it (hover, keyboard focus on a card). The toggle button must not, or Resume would
+   leave the row paused while the pointer or focus is still on the button. */
+.marquee[data-paused="true"] .marquee-track,
+.marquee-viewport:has(:focus-visible) .marquee-track,
+.marquee-viewport:focus-visible .marquee-track {
+  animation-play-state: paused;
+}
+@media (hover: hover) {
+  .marquee-viewport:hover .marquee-track { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .marquee-viewport { overflow-x: auto; mask-image: none; scrollbar-width: thin; }
+  .marquee-group[inert] { display: none; }
+  .marquee-toggle { display: none; }
+}
+
+/* Tile lean: only with a real mouse and no reduced-motion request. */
+.tilt-tile { height: 100%; position: relative; isolation: isolate; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tilt-tile {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--lift, 1));
+    transition: transform 450ms var(--ease-smooth-out);
+  }
+  .tilt-tile[data-active] { --lift: 1.03; transition-duration: 120ms; }
+  .tilt-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--radius-card);
+    box-shadow: 0 24px 40px -18px rgb(0 0 0 / 0.4);
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease-out;
+    pointer-events: none;
+  }
+  .tilt-tile[data-active]::after { opacity: 1; }
+}
+
+/* ---- Micro-interactions. Each is decoration on top of an already-visible page. ---- */
+
+/* Reading progress along the top edge (scroll-driven; browsers without support just show no bar). */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 45;
+  height: 3px;
+  background: var(--color-saffron-700);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+@keyframes scroll-progress { to { transform: scaleX(1); } }
+
+/* Desktop nav: underline grows from the left on hover and under the current page. */
+.nav-link {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 4px) / 0 2px;
+  transition: background-size var(--duration-fast) var(--ease-smooth-out), color var(--duration-quick) ease-out;
+}
+.nav-link:hover,
+.nav-link[aria-current="page"] { background-size: 100% 2px; }
+
+/* Live chip: a quiet radar ping. */
+.live-dot { position: relative; display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: currentColor; }
+@keyframes live-ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(2.8); opacity: 0; } }
+
+/* WhatsApp button rings twice after the page settles, then stays still. */
+@keyframes fab-ping { 0% { transform: scale(1); opacity: 0.45; } 100% { transform: scale(1.7); opacity: 0; } }
+
+/* Cards that lean up on hover (mouse only). */
+.lift { transition: translate var(--duration-fast) var(--ease-smooth-out), box-shadow var(--duration-fast) var(--ease-smooth-out); }
+@media (hover: hover) {
+  .lift:hover { translate: 0 -4px; box-shadow: 0 18px 32px -22px rgb(26 26 26 / 0.4); }
+  .icon-pop-target { transition: transform var(--duration-medium) var(--ease-smooth-out); }
+  .icon-pop:hover .icon-pop-target { transform: rotate(-8deg) scale(1.1); }
+}
+
+/* Form: field error shake and the success tick drawing itself. */
+@keyframes field-shake { 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+.check-draw circle { stroke-dasharray: 132; stroke-dashoffset: 132; animation: check-draw 0.6s var(--ease-smooth-out) forwards; }
+.check-draw polyline { stroke-dasharray: 32; stroke-dashoffset: 32; animation: check-draw 0.4s 0.4s var(--ease-smooth-out) forwards; }
+@keyframes check-draw { to { stroke-dashoffset: 0; } }
+
+/* Journey rail fills in as you scroll down the timeline. */
+.journey-rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2px;
+  width: 2px;
+  background: var(--color-saffron-700);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+@keyframes rail-fill { to { transform: scaleY(1); } }
+
+/* Photos: wipe open and settle from a slight zoom as they enter the screen. */
+@keyframes img-wipe {
+  from { clip-path: inset(0 0 100% 0 round var(--radius-image)); }
+  to { clip-path: inset(0 0 0 0 round var(--radius-image)); }
+}
+@keyframes img-settle { from { transform: scale(1.12); } to { transform: scale(1); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .live-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: inherit; animation: live-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+  .fab-ping::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--color-teal-700);
+    z-index: -1;
+    animation: fab-ping 1.6s ease-out 3s 2 both;
+  }
+  .faq { interpolate-size: allow-keywords; }
+  .faq details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--duration-fast) var(--ease-smooth-out), content-visibility var(--duration-fast) allow-discrete;
+  }
+  .faq details[open]::details-content { block-size: auto; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress { animation: scroll-progress linear both; animation-timeline: scroll(root); }
+    .journey-rail::after { animation: rail-fill linear both; animation-timeline: view(); animation-range: entry 25% cover 75%; }
+    .img-reveal { animation: img-wipe linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    .img-reveal img { animation: img-settle linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
+  }
+}
+
+/* ---- Keycap buttons: the cap drops onto a fixed plate while pressed, then springs back. ---- */
+.tactile {
+  --press: 4px;
+  position: relative;
+  display: inline-flex;
+  margin-bottom: var(--press);
+  border-radius: 999px;
+}
+.tactile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--plate, #1a1a1a);
+  translate: 0 var(--press);
+}
+.tactile > * {
+  position: relative;
+  translate: 0 0;
+  transition:
+    translate 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color var(--duration-quick) ease-out,
+    color var(--duration-quick) ease-out;
+}
+.tactile[data-pressed] > * {
+  translate: 0 var(--press);
+  transition:
+    translate 50ms ease-out,
+    background-color var(--duration-quick) ease-out,
+    color var(--duration-quick) ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tactile > *,
+  .tactile[data-pressed] > * { transition: none; }
+}
+
+/* ---- Home hero portrait ---- */
+.hero-dots {
+  background-image: radial-gradient(currentColor 1.6px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+.tilt-flat::after { display: none !important; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: no-preference) {
+  .spin-slow { animation: spin-slow 28s linear infinite; }
+}
+
+/* The wave is far wider than the svg box; let it paint past the box edges so the strip reaches the screen edges. */
+.ribbon-loop .text-loop-svg { overflow: visible; }
+
+/* Brochure book (desktop): two leaves on a spine. Step 0 shows the cover, 1 the inside spread, 2 the back cover.
+   The book is two pages wide and slides so whatever is showing stays centred. */
+.book {
+  --page-w: min(calc(78dvh * 1020 / 1320), 44vw);
+  --turn: 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  position: relative;
+  flex-shrink: 0;
+  width: calc(var(--page-w) * 2);
+  height: calc(var(--page-w) * 1320 / 1020);
+  perspective: 2600px;
+  translate: -25% 0;
+  transition: translate var(--turn);
+}
+.book[data-step="1"] { translate: 0 0; }
+.book[data-step="2"] { translate: 25% 0; }
+.book-leaf {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  /* stacking order flips at the half-turn, when the leaf stands on edge */
+  transition: transform var(--turn), z-index 0s linear 450ms;
+}
+.book-leaf[data-turned] { transform: rotateY(-180deg); }
+.book-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0 6px 6px 0;
+  backface-visibility: hidden;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #f2ede8, 6px 6px 0 #e4dcd4, 0 40px 70px -30px rgb(0 0 0 / 0.7);
+}
+.book-face-back {
+  transform: rotateY(180deg);
+  border-radius: 6px 0 0 6px;
+  box-shadow: -3px 3px 0 #f2ede8, -6px 6px 0 #e4dcd4, 0 40px 70px -30px rgb(0 0 0 / 0.7);
+}
+/* shading into the spine so the spread reads as a bound book */
+.book-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to right, rgb(0 0 0 / 0.16), transparent 7%);
+}
+.book-face-back::after { background: linear-gradient(to left, rgb(0 0 0 / 0.16), transparent 7%); }
+@media (prefers-reduced-motion: reduce) {
+  .book, .book-leaf { transition: none; }
+}
