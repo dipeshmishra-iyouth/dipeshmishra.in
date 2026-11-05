@@ -7,7 +7,7 @@ import { facts } from "@/lib/facts";
 import { allow } from "@/lib/rate-limit";
 
 const FIELDS = ["name", "email", "phone", "topic", "message"] as const;
-const DEFAULT_FROM = "Website <noreply@send.dipeshmishra.in>";
+const DEFAULT_FROM = "Website <noreply@dipeshmishra.in>";
 
 const read = (data: FormData, key: string) => String(data.get(key) ?? "").trim();
 

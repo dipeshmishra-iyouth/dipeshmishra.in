@@ -59,7 +59,7 @@ The site runs at <http://localhost:3000>. Without `RESEND_API_KEY` the contact f
 |---|---|
 | `RESEND_API_KEY` | Sending key for the contact form |
 | `CONTACT_TO` | Inbox that receives messages (defaults to the address in `lib/facts.ts`) |
-| `CONTACT_FROM` | Verified sender, for example `Website <noreply@send.dipeshmishra.in>` |
+| `CONTACT_FROM` | Verified sender, for example `Website <noreply@dipeshmishra.in>` |
 | `NEXT_PUBLIC_SITE_URL` | Public origin used for canonical links, the sitemap and social previews |
 
 > [!WARNING]
